@@ -1,0 +1,17 @@
+*.exe
+*.dll
+*.so
+*.dylib
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.log
+.env
+.env.local
+server
+dist/
+build/
+go.sum
