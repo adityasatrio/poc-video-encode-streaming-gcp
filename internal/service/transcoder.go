@@ -15,6 +15,8 @@ type TranscoderService struct {
 	hlsBucket string
 }
 
+var _ TranscoderServiceInterface = (*TranscoderService)(nil)
+
 func NewTranscoderService(ctx context.Context, projectID, location, hlsBucket string) (*TranscoderService, error) {
 	client, err := transcoder.NewClient(ctx)
 	if err != nil {

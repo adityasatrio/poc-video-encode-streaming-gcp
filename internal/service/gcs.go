@@ -10,10 +10,12 @@ import (
 )
 
 type GCSService struct {
-	client     *storage.Client
-	rawBucket  string
-	projectID  string
+	client    *storage.Client
+	rawBucket string
+	projectID string
 }
+
+var _ GCSServiceInterface = (*GCSService)(nil)
 
 func NewGCSService(ctx context.Context, projectID, rawBucket string) (*GCSService, error) {
 	client, err := storage.NewClient(ctx)

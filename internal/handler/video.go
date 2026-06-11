@@ -9,11 +9,11 @@ import (
 )
 
 type VideoHandler struct {
-	gcsService       *service.GCSService
-	transcoderService *service.TranscoderService
+	gcsService        service.GCSServiceInterface
+	transcoderService service.TranscoderServiceInterface
 }
 
-func NewVideoHandler(gcs *service.GCSService, transcoder *service.TranscoderService) *VideoHandler {
+func NewVideoHandler(gcs service.GCSServiceInterface, transcoder service.TranscoderServiceInterface) *VideoHandler {
 	return &VideoHandler{
 		gcsService:        gcs,
 		transcoderService: transcoder,
@@ -25,6 +25,10 @@ func (h *VideoHandler) GenerateUploadURL(c echo.Context) error {
 	var req model.UploadURLRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request"})
+	}
+
+	if req.Filename == "" || req.ContentType == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "filename and content_type are required"})
 	}
 
 	videoID, signedURL, err := h.gcsService.GenerateSignedURL(c.Request().Context(), req.Filename, req.ContentType)
