@@ -15,3 +15,5 @@ server
 dist/
 build/
 go.sum
+coverage.out
+coverage.html
